@@ -6,18 +6,12 @@
 <h3>Treeeeeeeesss</h3>
     @foreach (var tree in trees)
     {
-        <TreesDisplay thisTree="@tree" UserAddedCompliment="AddCompliment"></TreesDisplay>
+        <TreesDisplay thisTree="@tree" UserAddedCompliment="@(AddCompliment)"></TreesDisplay>
     }
-
-
-<h3>Select a Tree and Write your own compliment</h3>
-
-<InputTextArea @bind-Value="@TextAreaValue"></InputTextArea>
 
 
 @code {
 
-    public string TextAreaValue { get; set; }
 
     public List<Tree> trees = new List<Tree>
     {
@@ -28,9 +22,10 @@
     };
 
 
-    public void AddCompliment(int id)
+    public void AddCompliment(UserInput userInput)
     {
-        trees.Where(t => t.Id == id).First().Compliments.Add(Compliment.GetCompliment());
+        Compliment newCompliment = new() { Text = userInput.Compliment };
+        trees.Where(t => t.Id == userInput.TreeId).First().Compliments.Add(newCompliment);
     }
 
 

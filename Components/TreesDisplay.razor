@@ -1,6 +1,6 @@
 ﻿@using Complimentree.Models; 
-
 <h4>Name: @thisTree.Name</h4>
+
 
 <p>Size: @thisTree.Size</p>
 
@@ -17,22 +17,27 @@
     }
 </ul>
 
-<button type="button" @onclick=AddedCompliment>Add Compliment</button>
+<h3>Write your own compliment</h3>
+
+<InputTextArea @bind-Value="@TextAreaValue"> </InputTextArea>
+<button name="AddCompliment" value= "Add" @onclick="AddedCompliment">Add Compliment</button>
+
 
 
 @code {
 
-    protected bool IsSelected { get; set; }
-
+    public string TextAreaValue { get; set; }
     [Parameter]
     public Tree thisTree { get; set; }
 
+    public bool IsChecked { get; set; }
     [Parameter]
-    public EventCallback<int> UserAddedCompliment { get; set; }
+    public EventCallback<UserInput> UserAddedCompliment { get; set; }
+
 
     private async Task AddedCompliment()
     {
-        await UserAddedCompliment.InvokeAsync(thisTree.Id);
+        await UserAddedCompliment.InvokeAsync(new UserInput() { TreeId = thisTree.Id, Compliment = TextAreaValue });
     }
 
 }
