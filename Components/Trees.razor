@@ -1,19 +1,37 @@
 ﻿@using Complimentree.Models;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Web; 
+
 <h3>Trees</h3>
 <ul>
     @foreach (var tree in trees)
     {
-        <li> @tree.Name</li>
+        <li> @tree.Name
+            <ul>
+                @foreach (var compliment in tree.Compliments)
+                    {
+                        <li>@compliment.Text</li>
+                    }
+            </ul>
+        </li>
     }
 </ul>
+
+<button @onclick="() => AddCompliment(1)">Add Compliment</button>
+
 
 @code {
     public List<Tree> trees = new List<Tree>
     {
-      new Tree(1,"Red Tree","12.15","10.5", 200, "Red Tree Species"),
-      new Tree(2,"Green Tree","13.15","170.5", 200, "Green Tree Species"),
-      new Tree(3,"yellow Tree","122.15","20.5", 200, "yellow Tree Species"),
-      new Tree(4,"orange Tree","2.15","60.5", 200, "orange Tree Species")
+      new Tree(1,"Red Tree","12.15","10.5", 200, "Red Tree Species"){ Compliments = new List<Compliment> () { Compliment.GetCompliment() } } ,
+      new Tree(2,"Green Tree","13.15","170.5", 200, "Green Tree Species"){ Compliments = new List<Compliment> () { Compliment.GetCompliment() } } ,
+      new Tree(3,"yellow Tree","122.15","20.5", 200, "yellow Tree Species"){ Compliments = new List<Compliment> () { Compliment.GetCompliment() } } ,
+      new Tree(4,"orange Tree","2.15","60.5", 200, "orange Tree Species"){ Compliments = new List<Compliment> () { Compliment.GetCompliment() } }
     };
+
+    public void AddCompliment(int id)
+    {
+        trees.Where(t => t.Id == id).First().Compliments.Add(Compliment.GetCompliment()); 
+    }
 
 }
