@@ -1,8 +1,9 @@
 ﻿@using Complimentree.Models;
 @using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.Web; 
+@rendermode InteractiveServer
 
-<h3>Trees</h3>
+<h3>Treeeeeeeesss</h3>
 <ul>
     @foreach (var tree in trees)
     {
@@ -13,14 +14,15 @@
                         <li>@compliment.Text</li>
                     }
             </ul>
+            <button type="button" @onclick="() => AddCompliment(tree.Id)">Add Compliment</button>
         </li>
     }
 </ul>
 
-<button @onclick="() => AddCompliment(1)">Add Compliment</button>
 
 
 @code {
+
     public List<Tree> trees = new List<Tree>
     {
       new Tree(1,"Red Tree","12.15","10.5", 200, "Red Tree Species"){ Compliments = new List<Compliment> () { Compliment.GetCompliment() } } ,
@@ -32,6 +34,6 @@
     public void AddCompliment(int id)
     {
         trees.Where(t => t.Id == id).First().Compliments.Add(Compliment.GetCompliment()); 
-    }
+       }
 
 }
