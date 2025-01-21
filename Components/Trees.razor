@@ -4,24 +4,20 @@
 @rendermode InteractiveServer
 
 <h3>Treeeeeeeesss</h3>
-<ul>
     @foreach (var tree in trees)
     {
-        <li> @tree.Name
-            <ul>
-                @foreach (var compliment in tree.Compliments)
-                    {
-                        <li>@compliment.Text</li>
-                    }
-            </ul>
-            <button type="button" @onclick="() => AddCompliment(tree.Id)">Add Compliment</button>
-        </li>
+        <TreesDisplay thisTree="@tree" UserAddedCompliment="AddCompliment"></TreesDisplay>
     }
-</ul>
 
+
+<h3>Select a Tree and Write your own compliment</h3>
+
+<InputTextArea @bind-Value="@TextAreaValue"></InputTextArea>
 
 
 @code {
+
+    public string TextAreaValue { get; set; }
 
     public List<Tree> trees = new List<Tree>
     {
@@ -31,9 +27,11 @@
       new Tree(4,"orange Tree","2.15","60.5", 200, "orange Tree Species"){ Compliments = new List<Compliment> () { Compliment.GetCompliment() } }
     };
 
+
     public void AddCompliment(int id)
     {
-        trees.Where(t => t.Id == id).First().Compliments.Add(Compliment.GetCompliment()); 
-       }
+        trees.Where(t => t.Id == id).First().Compliments.Add(Compliment.GetCompliment());
+    }
+
 
 }
